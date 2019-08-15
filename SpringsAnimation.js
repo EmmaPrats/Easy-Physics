@@ -1,5 +1,5 @@
 /**
- * Creates a new springs animation.
+ * Creates a springs animation.
  * @class
  * @param {Object} canvas a canvas element
  * @param {bool} [EDITMODE=false] wether the animation is being edited
@@ -193,7 +193,7 @@ SpringsAnimation.prototype.initSimulation = function()
 };
 
 /**
- * Runs the simulation and draws it.
+ * Runs the simulation and renders it.
  */
 SpringsAnimation.prototype.draw = function()
 {
@@ -289,7 +289,7 @@ SpringsAnimation.prototype.draw = function()
 
 /**
  * Draws a grid on the context.
- * @param {Object} context context to draw on
+ * @param {Object} context HTML5 Canvas's context to draw on
  */
 SpringsAnimation.drawGrid = function (context)
 {
