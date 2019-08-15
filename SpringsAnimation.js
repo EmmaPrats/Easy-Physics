@@ -183,11 +183,11 @@ SpringsAnimation.prototype.initSimulation = function()
         this.letters[i].color = this.color;
         this.letters[i].visualrepresentation.color = this.color;
         
-        this.springs.push (new SimpleSpring (new Vector (this.letterlocations[i].x, this.letterlocations[i].y),
-                                             this.letters[i],
-                                             0,
-                                             this.stiffness,
-                                             this.damping)
+        this.springs.push (new Spring (new Vector (this.letterlocations[i].x, this.letterlocations[i].y),
+                                       this.letters[i],
+                                       0,
+                                       this.stiffness,
+                                       this.damping)
                            );
     }
 };
@@ -248,7 +248,7 @@ SpringsAnimation.prototype.draw = function()
         
         for (var i=0; i<this.springs.length; i++)
         {
-            this.springs[i].applySpringForcesToParticle2();
+            this.springs[i].applySpringForcesToParticle();
         }
         
         for (var i=0; i<this.letters.length; i++)
