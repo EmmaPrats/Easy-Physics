@@ -1195,7 +1195,7 @@ function Spring (origin, particle, length, stiffness, damping)
  */
 Spring.prototype.applySpringForcesToParticle = function()
 {
-    var dist = (typeof (origin) == "Vector") ? Vector.sub (this.origin, this.particle) : Vector.sub (this.origin.location, this.particle.location);
+    var dist = (this.origin instanceof Vector) ? Vector.sub (this.origin, this.particle.location) : Vector.sub (this.origin.location, this.particle.location);
     var normDist = Vector.getNormalizedFrom (dist);
     normDist.mult (this.length);
     
