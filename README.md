@@ -50,6 +50,33 @@ var springsAnimation = new SpringsAnimation (canvas);
 </script>
 ```
 
+This will create an animation with the default parameters.
+
+### Customizing the Springs animation
+
+You can create a settings object and pass it to `springsAnimation` before starting the animation loop:
+
+```
+<script>
+var settings = [];
+settings.text = "Hello, World!";
+settings.font = "Times New Roman";
+
+var canvas = document.getElementById("EasyPhysics");
+var springsAnimation = new SpringsAnimation (canvas);
+springsAnimation.initParams (false, settings);
+springsAnimation.initSimulation(); //If you call initParams, you must call initSimulation after.
+
+(function animationLoop()
+{
+   springsAnimation.draw();
+   window.requestAnimationFrame (animationLoop);
+})();
+</script>
+```
+
+Check out the documentation for a full list of all the settings for each scene.
+
 ## How to install
 1. Download the file `EasyPhysics.js`.
 2. Place the file in your website directory.
