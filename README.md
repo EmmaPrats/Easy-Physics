@@ -33,11 +33,21 @@ Add a Canvas element to your HTML file:
 
 `<canvas id="EasyPhysics" width="480" height="360"></canvas>`
 
-Create a script, let's call it, for example, `myAnimation.js`.
+Download the file `EasyPhysics.js` and add `<script src="EasyPhysics.js"></script>` to your HTML file before the `</body>` tag.
+
+After that, add:
 
 ```
+<script>
 var canvas = document.getElementById("EasyPhysics");
 var springsAnimation = new SpringsAnimation (canvas);
+
+(function animationLoop()
+{
+   springsAnimation.draw();
+   window.requestAnimationFrame (animationLoop);
+})();
+</script>
 ```
 
 ## How to install
