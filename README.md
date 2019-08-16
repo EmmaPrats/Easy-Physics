@@ -27,6 +27,8 @@ Another implementation of a Reynold's paper: ["Steering Behaviours for Autonomou
 
 ## How to use
 
+You can use **Easy Physics** as a Javascript library, but there is also a visual editor if you prefer.
+
 ### Creating a simple Springs animation
 
 Add a Canvas element to your HTML file:
