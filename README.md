@@ -39,7 +39,7 @@ Download the file `EasyPhysics.js` and add `<script src="EasyPhysics.js"></scrip
 
 After that, add:
 
-```
+```html
 <script>
 var canvas = document.getElementById("EasyPhysics");
 var springsAnimation = new SpringsAnimation (canvas);
@@ -58,7 +58,7 @@ This will create an animation with the default parameters.
 
 You can create a settings object and pass it to `springsAnimation` before starting the animation loop:
 
-```
+```html
 <script>
 var settings = [];
 settings.text = "Hello, World!";
