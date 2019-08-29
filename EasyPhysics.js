@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Returns a random number between the arguments.
  * @param {number} min
@@ -7,6 +5,17 @@
  * @returns {number} random number between min and max
  */
 function getRandomBetween (min, max)
+{
+    return Math.random() * (max - min) + min;
+}
+
+/**
+ * Returns a random number between the arguments.
+ * @param {number} min
+ * @param {number} max
+ * @returns {number} random number between min and max
+ */
+function Math.getRandomBetween (min, max)
 {
     return Math.random() * (max - min) + min;
 }
@@ -170,7 +179,7 @@ Vector.prototype.mult = function (scalar)
  * Returns a new Vector that is the result of multiplying the vector and number passed.
  * @param {Vector} vector vector to copy
  * @param {number} scalar number to multiply the vector by
- * @returns {Vector} vector that is a copy of the one passed, scaled by the number passed
+ * @returns {Vector} vector that is a copy of the one passed, scaled by the number passed
  */
 Vector.mult = function (vector, scalar)
 {
@@ -191,7 +200,7 @@ Vector.prototype.div = function (scalar)
  * Returns a new Vector that is the result of dividing the vector by the number passed.
  * @param {Vector} vector vector to copy
  * @param {number} scalar number to divide the vector by
- * @returns {Vector} vector that is a copy of the one passed, divided by the number passed
+ * @returns {Vector} vector that is a copy of the one passed, divided by the number passed
  */
 Vector.div = function (vector, scalar)
 {
@@ -220,8 +229,7 @@ Vector.prototype.limit = function (magnitude)
 Vector.dot = function (vector1, vector2)
 {
     return vector1.x * vector2.x + vector1.y * vector2.y;
-}
-
+};
 
 /**
  * Creates a SimulationObject.
@@ -371,7 +379,7 @@ function Boid (visualrepresentation, radius, location, velocity, acceleration, m
     this.circleDistance = 3 * this.radius;
     this.circleRadius = 1.5 * this.radius;
     this.wanderAngle = 0;
-
+    
 }
 
 Boid.prototype = Object.create (SimulationObject.prototype);
@@ -629,7 +637,7 @@ Boid.prototype.pursueIfNear = function (target, distance, dt)
     {
         return new Vector();
     }
-}
+};
 
 /**
  * Returns the steering force that will move the boid away from a target.
@@ -719,7 +727,7 @@ Boid.prototype.wander = function()
     var steer = Vector.sub (desired, this.velocity);
     steer.limit (this.maxforce);
     return steer;
-}
+};
 
 /**
  * Creates a Flock. Contains an empty array of boids that you have to fill.
@@ -819,10 +827,6 @@ Flock.prototype.boidSizeChange = function (size)
     this.neighbourdist = size * Flock.neighbourdistancetoradiusratio;
 };
 
-//TODO FloatingObject. No m'agrada cap nom
-//TODO posar el mass ací o al final? Crec que millor ací
-//TODO necessita un mètode run? per a posar l'acceleració ahí, per exemple, i cridar a compute forces.
-
 /**
  * Creates a Particle.
  * @class
@@ -860,7 +864,7 @@ Particle.prototype.applyForce = function (force)
  * Calculates flotation force and applies it to this particle. It considers this particle is a sphere.
  * @param {Vector} gravity gravity acceleration
  * @param {number} liquidDensity density of liquid
- * @param {number} sealevel level of water
+ * @param {number} sealevel level of water
  * @param {number} floor level of floor
  */
 Particle.prototype.applyFlotationForces = function (gravity, liquidDensity, sealevel, floor)
@@ -977,7 +981,7 @@ RigidBox.prototype.applyForceTo = function (force, point)
  * Calculates flotation force and torque and applies it to this particle.
  * @param {Vector} gravity gravity acceleration
  * @param {number} liquidDensity density of liquid
- * @param {number} sealevel level of water
+ * @param {number} sealevel level of water
  */
 RigidBox.prototype.applyFlotationForces = function (gravity, liquidDensity, sealevel)
 {
@@ -3129,3 +3133,4 @@ SteeringAnimation.drawGrid = function (context, scenewidth)
     
     context.restore();
 };
+
