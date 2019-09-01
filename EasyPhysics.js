@@ -991,74 +991,47 @@ RigidBox.prototype.display = function (context)
  * Creates a RigidLetter.
  * @class
  * @extends RigidBox
- * @param {string} letter character
+ * @param {string} character character
  * @param {string} font font of the character (in px)
  * @param {number} mass mass of the letter
- * @param {number} size font size of the character
+ * @param {number} fontSize font size of the character
  * @param {Vector} location location of the letter, is updated each step
  * @param {Vector} velocity velocity of the letter, is updated each step
  * @param {Vector} acceleration acceleration of the letter, is updated each step
  * @classdesc A RigidLetter is a rigid body in the shape of a character.
  */
-function RigidLetter (letter, font, mass, size, location, velocity, acceleration)
+function RigidLetter (character, font, mass, fontSize, location, velocity, acceleration)
 {
-    //1. Find points
-    var canvas = document.createElement ("canvas");
-    canvas.width = 100;
-    canvas.height = 150;
-    var context = canvas.getContext("2d");
+    RigidBox.call (this, mass, new Vector (fontSize, fontSize), location, velocity, acceleration);
     
-    //1.1. Draw letter
-    context.font = "100px " + font;
-    context.fillStyle = "#000000";
-    context.fillText (letter, 20, 100);
-    
-    //1.2. Find points
     var gridSize = 10;
-    var realPoints = [];
-    var centerOfMass = new Vector();
-    var minX = 0, maxX = 0, minY = 0, maxY = 0;
-    for (var i=gridSize/2; i<100; i+=gridSize)
-    {
-        for (var j=gridSize/2; j<150; j+=gridSize)
-        {
-            if (context.getImageData(i,j,1,1).data[3] > 0)
-            {
-                realPoints.push (new Vector (i, j));
-                centerOfMass.add (new Vector (i, j));
-                
-                //For calculating bounding box size
-                if (i < minX) minX = i;
-                else if (i > maxX) maxX = i;
-                if (j < minY) minY = j;
-                else if (j > maxY) maxY = j;
-            }
-        }
-    }
-    centerOfMass.div (realPoints.length);
-    var boundingBoxSize = new Vector (maxX - minX + gridSize, maxY - minY + gridSize); //super
-    boundingBoxSize.mult (size/100);
     
-    RigidBox.call (this, mass, boundingBoxSize, location, velocity, acceleration);
+    //POINTS, OFFSET FOR DRAWING CHARACTER
+    this.points = RigidLetter.getPointsForRBD (character, font, fontSize, gridSize);
+    this.letterLocation = this.points.pop();
     
-    this.letterLocation = new Vector (20-centerOfMass.x, 100-centerOfMass.y); //in local coordinates
-    this.letterLocation.mult (size/100);
-    this.points = realPoints; //Constructor calculated the 4 points for the bounding box.
-    for (var i=0; i<this.points.length; i++)
+    //ROTATED POINTS
+    this.rotatedPoints = [];
+    for (let i=0; i<points.length; i++)
     {
-        this.points[i].sub (centerOfMass);
-        this.points[i].mult (size/100);
+        this.rotatedPoints.push (new Vector (points[i].x, points[i].y));
     }
-    //now all points are in local coordinates
     
-    this.rotatedPoints = []; //Constructor calculated the 4 points for the bounding box.
-    for (var i=0; i<this.points.length; i++)
+    //BOUNDING BOX
+    var minX = this.points[0].x, maxX = this.points[0].x, minY = this.points[0].y, maxY = this.points[0].y;
+    for (let i=1; i<points.length; i++)
     {
-        this.rotatedPoints.push (new Vector (
-                                             this.points[i].x * Math.cos(this.angle) - this.points[i].y * Math.sin(this.angle),
-                                             this.points[i].x * Math.sin(this.angle) + this.points[i].y * Math.cos(this.angle)
-                                             ));
+        if (points[i].x < minX)
+            minX = i;
+        else if (points[i].x > maxX)
+            maxX = i;
+        if (points[i].y < minY)
+            minY = j;
+        else if (points[i].y > maxY)
+            maxY = j;
     }
+    gridSize *= fontSize / 100;
+    this.size = new Vector (maxX - minX + gridSize, maxY - minY + gridSize);
     
     //We will assume each point has   mass = box_mass   / number_of_points
     //We will assume each point has volume = box_volume / number_of_points
@@ -1068,12 +1041,69 @@ function RigidLetter (letter, font, mass, size, location, velocity, acceleration
     this.pointVolume = this.size.x * this.size.y * (this.size.x + this.size.y)/2 / this.points.length;
     this.pointMass = this.mass / this.points.length;
     
-    this.letter = letter;
-    this.font = size + "px " + font;
+    this.letter = character;
+    this.font = fontSize + "px " + font;
 }
 
 RigidLetter.prototype = Object.create (RigidBox.prototype);
 RigidLetter.prototype.constructor = RigidLetter;
+
+/**
+ * Calculates and returns an array containing all points belonging to the character.
+ * Points are sampled with gridSize accuracy.
+ * The last element in the returned array is the character's offsetForDrawing. Use pop() to retrieve and remove it.
+ * @param {character} character the character to get points from
+ * @param {string} font font of the character
+ * @param {integer} fontSize font size of the character
+ * @param {integer} [gridSize=10] grid size for sampling accuracy
+ * @returns {Array<Vector>} array containing all points and offsetForDrawing in object coordinates.
+ */
+RigidLetter.getPointsForRBD = function (character, font, fontSize, gridSize = 10)
+{
+    //1. Create canvas
+    var canvas = document.createElement ("canvas");
+    canvas.width = 100;
+    canvas.height = 150;
+    var context = canvas.getContext("2d");
+    
+    //2. Draw character
+    context.font = "100px " + font;
+    context.fillStyle = "#000000";
+    context.fillText (character, 20, 100);
+    
+    //3. Find points and center of mass
+    var points = [];
+    var centerOfMass = new Vector();
+    for (var i=gridSize/2; i<100; i+=gridSize)
+    {
+        for (var j=gridSize/2; j<150; j+=gridSize)
+        {
+            if (context.getImageData(i,j,1,1).data[3] > 0)
+            {
+                points.push (new Vector (i, j));
+                centerOfMass.x += i;
+                centerOfMass.y += j;
+            }
+        }
+    }
+    centerOfMass.div (points.length);
+    
+    //4. Get points in local coordinates and the right size
+    for (let i=0; i<points.length; i++)
+    {
+        points[i].sub (centerOfMass);
+        points[i].mult (fontSize/100);
+    }
+    
+    //5. Calculate offset for drawing the character
+    var offsetForDrawing = new Vector (20-centerOfMass.x, 100-centerOfMass.y); //in local coordinates
+    offsetForDrawing.mult (fontSize/100); //and the right size
+    
+    //6. Last element of points array is offsetForDrawing
+    points.push (offsetForDrawing);
+    
+    return points;
+}
 
 /**
  * Renders this object on the context passed.
