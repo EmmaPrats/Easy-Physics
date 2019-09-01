@@ -44,12 +44,8 @@ function RigidLetter (character, font, mass, fontSize, location, velocity, accel
     gridSize *= fontSize / 100;
     this.size = new Vector (maxX - minX + gridSize, maxY - minY + gridSize);
     
-    //We will assume each point has   mass = box_mass   / number_of_points
-    //We will assume each point has volume = box_volume / number_of_points
-    //We will assume that the rectangle is a box with depth = avg(width, height)
-    //So box_volume = width * height * depth = width * height * (width + height)/2
-    //The volume thing is so I can use "real world" values.
-    this.pointVolume = this.size.x * this.size.y * (this.size.x + this.size.y)/2 / this.points.length;
+    //POINT VOLUME AND MASS
+    this.pointVolume = gridSize * gridSize * gridSize; //We are making it 3D for simulation purposes only
     this.pointMass = this.mass / this.points.length;
     
     this.letter = character;
