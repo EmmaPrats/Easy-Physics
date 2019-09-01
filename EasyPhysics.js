@@ -1490,13 +1490,13 @@ SpringsAnimation.prototype.initSimulation = function()
     
     for (let i=0; i<this.text.length; i++)
     {
-        this.letters.push (new Particle (new Character (this.text[i], this.font, this.size, this.color),
-                                         this.mass,
-                                         this.size,
-                                         new Vector (this.letterlocations[i].x, this.letterlocations[i].y),
-                                         new Vector(),
-                                         new Vector(),
-                                         false)
+        this.letters.push (new SimulationObject (new Character (this.text[i], this.font, this.size, this.color),
+                                                 this.mass,
+                                                 this.size,
+                                                 new Vector (this.letterlocations[i].x, this.letterlocations[i].y),
+                                                 new Vector(),
+                                                 new Vector(),
+                                                 false)
                            );
         this.letters[i].color = this.color;
         this.letters[i].visualrepresentation.color = this.color;
