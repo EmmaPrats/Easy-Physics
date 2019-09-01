@@ -14,7 +14,7 @@
  */
 function Boid (visualrepresentation, radius, location, velocity, acceleration, maxspeed, maxforce, orientedTowardsMovement = true)
 {
-    SimulationObject.call (this, visualrepresentation, radius, location, velocity, acceleration, orientedTowardsMovement);
+    SimulationObject.call (this, visualrepresentation, 1, radius, location, velocity, acceleration, orientedTowardsMovement);
     
     this.maxspeed = maxspeed;
     this.maxforce = maxforce;

@@ -8,9 +8,10 @@
  * @param {Vector} acceleration acceleration of the object, is updated each step
  * @param {bool} orientedTowardsMovement wether it's oriented towards its velocity vector
  */
-function SimulationObject (visualrepresentation, radius, location, velocity, acceleration, orientedTowardsMovement = false)
+function SimulationObject (visualrepresentation, mass, radius, location, velocity, acceleration, orientedTowardsMovement = false)
 {
     this.visualrepresentation = visualrepresentation;
+    this.mass = mass;
     this.radius = radius * 1.0;
     this.location = location;
     this.velocity = velocity;
@@ -47,7 +48,7 @@ SimulationObject.prototype.applyAcceleration = function (acceleration)
  */
 SimulationObject.prototype.applyForce = function (force)
 {
-    this.acceleration.add (force);
+    this.acceleration.add (Vector.div (force, this.mass));
 };
 
 /**
