@@ -1821,7 +1821,7 @@ FloatingAnimation.prototype.initParams = function (EDITMODE = false, settings)
     
     this.gravity = new Vector (0, 9.8);
     this.size = 1;
-    this.mass = 100;
+    this.mass = 5;
     this.liquidDensity = 1000;
     this.text = "Easy Physics";
     
