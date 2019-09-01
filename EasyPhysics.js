@@ -1012,14 +1012,14 @@ function RigidLetter (character, font, mass, fontSize, location, velocity, accel
     
     //ROTATED POINTS
     this.rotatedPoints = [];
-    for (let i=0; i<points.length; i++)
+    for (let i=0; i<this.points.length; i++)
     {
         this.rotatedPoints.push (new Vector (points[i].x, points[i].y));
     }
     
     //BOUNDING BOX
     var minX = this.points[0].x, maxX = this.points[0].x, minY = this.points[0].y, maxY = this.points[0].y;
-    for (let i=1; i<points.length; i++)
+    for (let i=1; i<this.points.length; i++)
     {
         if (points[i].x < minX)
             minX = i;
