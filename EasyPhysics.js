@@ -15,7 +15,7 @@ function getRandomBetween (min, max)
  * @param {number} max
  * @returns {number} random number between min and max
  */
-function Math.getRandomBetween (min, max)
+Math.getRandomBetween = function (min, max)
 {
     return Math.random() * (max - min) + min;
 }
