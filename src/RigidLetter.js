@@ -25,7 +25,7 @@ function RigidLetter (character, font, mass, fontSize, location, velocity, accel
     this.rotatedPoints = [];
     for (let i=0; i<this.points.length; i++)
     {
-        this.rotatedPoints.push (new Vector (points[i].x, points[i].y));
+        this.rotatedPoints.push (new Vector (this.points[i].x, this.points[i].y));
     }
     
     //BOUNDING BOX
