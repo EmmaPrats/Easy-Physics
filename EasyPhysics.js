@@ -841,8 +841,7 @@ Flock.prototype.boidSizeChange = function (size)
  */
 function RigidBox (mass, size, location, velocity, acceleration)
 {
-    SimulationObject.call (this, "circle", (size.x+size.y)/2, location, velocity, acceleration, false);
-    this.mass = mass;
+    SimulationObject.call (this, "circle", mass, (size.x+size.y)/2, location, velocity, acceleration, false);
     this.size = size;
     this.angularVelocity = 0;
     this.angularAcceleration = 0;
@@ -1021,14 +1020,14 @@ function RigidLetter (character, font, mass, fontSize, location, velocity, accel
     var minX = this.points[0].x, maxX = this.points[0].x, minY = this.points[0].y, maxY = this.points[0].y;
     for (let i=1; i<this.points.length; i++)
     {
-        if (points[i].x < minX)
-            minX = i;
-        else if (points[i].x > maxX)
-            maxX = i;
-        if (points[i].y < minY)
-            minY = j;
-        else if (points[i].y > maxY)
-            maxY = j;
+        if (this.points[i].x < minX)
+            minX = this.points[i].x;
+        else if (this.points[i].x > maxX)
+            maxX = this.points[i].x;
+        if (this.points[i].y < minY)
+            minY = this.points[i].y;
+        else if (this.points[i].y > maxY)
+            maxY = this.points[i].y;
     }
     gridSize *= fontSize / 100;
     this.size = new Vector (maxX - minX + gridSize, maxY - minY + gridSize);
@@ -1086,6 +1085,7 @@ RigidLetter.getPointsForRBD = function (character, font, fontSize, gridSize = 10
             }
         }
     }
+    if (points.length == 0) points.push (new Vector());
     centerOfMass.div (points.length);
     
     //4. Get points in local coordinates and the right size

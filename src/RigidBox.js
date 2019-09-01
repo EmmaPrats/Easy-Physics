@@ -11,8 +11,7 @@
  */
 function RigidBox (mass, size, location, velocity, acceleration)
 {
-    SimulationObject.call (this, "circle", (size.x+size.y)/2, location, velocity, acceleration, false);
-    this.mass = mass;
+    SimulationObject.call (this, "circle", mass, (size.x+size.y)/2, location, velocity, acceleration, false);
     this.size = size;
     this.angularVelocity = 0;
     this.angularAcceleration = 0;
